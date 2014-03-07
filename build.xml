@@ -10,6 +10,9 @@
 	<import file="lib/exus-build/build-exultant.xml"/>
 	<import file="lib/exus-build/build-exultant-java.xml"/>
 
+	<property name="target.jar" value="${target}/${app}.jar"/>
+	<property name="target.native" value="${target}/native"/>
+
 
 	<target name="init" depends="exusInit">
 	</target>
@@ -50,13 +53,25 @@
 		depends="compile"
 		description="pack distributable artifacts"
 		>
-		<exusPack destfile="${dist}/${app}.jar">
+		<exusPack destfile="${target.jar}">
 			<manifest>
 				<attribute name="Main-Class" value="net.polydawn.taxi.Taxi"/>
 			</manifest>
 			<fileset file="${target.javac}/main/**"/>
 		</exusPack>
-		<chmod file="${dist}/${app}.jar" perm="755"/>
+		<chmod file="${target.jar}" perm="755"/>
+	</target>
+
+
+	<target name="dist-native"
+		depends="dist"
+		description="provide native binaries for the current platform from the distributable jvm bytecode artifacts"
+		>
+		<mkdir dir="${target.native}"/>
+		<exec executable="robovm" dir="${target.native}">
+			<arg value="-o"/><arg value="${app}"/>
+			<arg value="-jar"/><arg value="${basedir}/${target.jar}"/>
+		</exec>
 	</target>
 
 
