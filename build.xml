@@ -48,11 +48,11 @@
 		depends="init"
 		description="compile the source"
 		>
-		<exusJavac
-			classes="net/polydawn/taxi/Taxi.java"
+		<exusJavacStrict
+			classes="net/polydawn/taxi/**"
 			>
 			<classpath refid="app.path.deps.main" />
-		</exusJavac>
+		</exusJavacStrict>
 	</target>
 
 
@@ -77,7 +77,8 @@
 		<mkdir dir="${target.native}"/>
 		<exec executable="robovm" dir="${target.native}" failonerror="true">
 			<arg value="-o"/><arg value="${app}"/>
-			<arg value="-jar"/><arg value="${basedir}/${target.jar}"/>
+			<arg value="-cp"/><arg value="${basedir}/${target.jar}"/>
+			<arg value="net.polydawn.taxi.launch.Taxi"/>
 		</exec>
 	</target>
 
@@ -97,7 +98,8 @@
 			<arg value="-cp"/><arg value="${lib}/robovm/lib/robovm-rt.jar" />
 			<arg value="-cp"/><arg value="${lib}/robovm/lib/robovm-objc.jar" />
 			<arg value="-cp"/><arg value="${lib}/robovm/lib/robovm-cocoatouch.jar" />
-			<arg value="-jar"/><arg value="${basedir}/${target.jar}"/>
+			<arg value="-cp"/><arg value="${basedir}/${target.jar}"/>
+			<arg value="net.polydawn.taxi.launch.TaxiApple"/>
 		</exec>
 	</target>
 
