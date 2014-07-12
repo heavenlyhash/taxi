@@ -1,7 +1,6 @@
 package net.polydawn.taxi.launch;
 
 import java.io.*;
-import net.polydawn.taxi.*;
 import org.robovm.cocoatouch.foundation.*;
 
 /**
