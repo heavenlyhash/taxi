@@ -5,5 +5,5 @@
 	path = lib/robovm-dist
 	url = http://mdm-releases.com/org.robovm/robovm-dist-releases.git
 	mdm = dependency
-	mdm-version = 0.0.9.mvn
+	mdm-version = 0.0.14.mvn
 	update = none
