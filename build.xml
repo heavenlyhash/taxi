@@ -60,7 +60,7 @@
 
 
 	<target name="compile"
-		depends="init"
+		depends="init, unpack-robovm"
 		description="compile the source"
 		>
 		<exusJavacStrict
@@ -86,7 +86,7 @@
 
 
 	<target name="dist-native"
-		depends="dist, unpack-robovm"
+		depends="dist"
 		description="provide native binaries for the current platform from the distributable jvm bytecode artifacts"
 		>
 		<mkdir dir="${target.native}"/>
@@ -99,7 +99,7 @@
 
 
 	<target name="dist-native-mac"
-		depends="dist, unpack-robovm"
+		depends="dist"
 		description="provide native binaries for ios"
 		>
 		<mkdir dir="${target.native}"/>
