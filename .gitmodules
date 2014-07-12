@@ -1,3 +1,9 @@
 [submodule "lib/exus-build"]
 	path = lib/exus-build
 	url = https://github.com/heavenlyhash/exus-build.git
+[submodule "lib/robovm-dist"]
+	path = lib/robovm-dist
+	url = http://mdm-releases.com/org.robovm/robovm-dist-releases.git
+	mdm = dependency
+	mdm-version = 0.0.9.mvn
+	update = none
