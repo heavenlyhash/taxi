@@ -6,8 +6,6 @@
 	</description>
 	<property name="app" value="${ant.project.name}"/>
 
-	<property name="target.jar" value="${target}/${app}.jar"/>
-	<property name="target.native" value="${target}/native"/>
 
 	<exec executable="git" failonerror="true">
 		<arg value="submodule"/>
@@ -18,6 +16,10 @@
 	<import file="lib/exus-build/build-exultant.xml"/>
 	<import file="lib/exus-build/build-exultant-java.xml"/>
 	<import file="lib/exus-build/bootstrap-mdm.xml"/>
+
+
+	<property name="target.jar" value="${target}/${app}.jar"/>
+	<property name="target.native" value="${target}/native"/>
 
 
 	<target name="init" depends="exusInit,-bootstrap-mdm-modules">
