@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/test-fixtures"/>
+	<classpathentry kind="src" path="src/test-integration"/>
+	<classpathentry kind="src" path="src/test-unit"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="target/robovm/lib/robovm-cocoatouch.jar" sourcepath="target/robovm/lib/robovm-cocoatouch-sources.jar"/>
+	<classpathentry kind="output" path="target/eclipse"/>
+</classpath>
