@@ -20,21 +20,28 @@
 
 	<property name="target.jar" value="${target}/${app}.jar"/>
 	<property name="target.native" value="${target}/native"/>
+	<property name="target.robovm" value="${target}/robovm"/>
 
 
 	<target name="init" depends="exusInit,-bootstrap-mdm-modules">
 	</target>
 
 
+	<target name="unpack-robovm" depends="init">
+		<untar src="lib/robovm-dist/robovm-dist.tar.gz" dest="${target.robovm}" compression="gzip">
+			<cutdirsmapper dirs="1"/>
+		</untar>
+		<chmod dir="${target.robovm}/bin/" perm="ugo+rx" includes="*"/>
+	</target>
+
+
 	<path id="app.path.deps.main" cache="true">
 		<!--
 		TODO: all of these deps are only relevant for apple targets.  Hello-world on linux is trivial and has none of these deps.
-		Haven't decided if should link the robovm "dist" package and untar it in working space, or if should link libs individually.
-		Currently paths are about right if you curl http://download.robovm.org/robovm-0.0.9.tar.gz and untar to "lib/" then strip the version number.
 		-->
-		<pathelement location="${lib}/robovm/lib/robovm-rt.jar" />
-		<pathelement location="${lib}/robovm/lib/robovm-objc.jar" />
-		<pathelement location="${lib}/robovm/lib/robovm-cocoatouch.jar" />
+		<pathelement location="${target.robovm}/lib/robovm-rt.jar" /> <!-- this is the entire standard library, as lifted from android. -->
+		<pathelement location="${target.robovm}/lib/robovm-objc.jar" />
+		<pathelement location="${target.robovm}/lib/robovm-cocoatouch.jar" />
 	</path>
 	<path id="app.path.main">
 		<path refid="app.path.deps.main" />
@@ -79,11 +86,11 @@
 
 
 	<target name="dist-native"
-		depends="dist"
+		depends="dist, unpack-robovm"
 		description="provide native binaries for the current platform from the distributable jvm bytecode artifacts"
 		>
 		<mkdir dir="${target.native}"/>
-		<exec executable="robovm" dir="${target.native}" failonerror="true">
+		<exec executable="${basedir}/${target.robovm}/bin/robovm" dir="${target.native}" failonerror="true">
 			<arg value="-o"/><arg value="${app}"/>
 			<arg value="-cp"/><arg value="${basedir}/${target.jar}"/>
 			<arg value="net.polydawn.taxi.launch.Taxi"/>
@@ -92,20 +99,20 @@
 
 
 	<target name="dist-native-mac"
-		depends="dist"
+		depends="dist, unpack-robovm"
 		description="provide native binaries for ios"
 		>
 		<mkdir dir="${target.native}"/>
-		<exec executable="robovm" dir="${target.native}" failonerror="true">
+		<exec executable="${basedir}/${target.robovm}/bin/robovm" dir="${target.native}" failonerror="true">
 			<arg value="-o"/><arg value="${app}"/>
 			<!--
 			turn this on for ios... but not for mac; it changes where dylb path expectations point.
 			<arg value="-arch"/><arg value="x86"/>
 			<arg value="-os"/><arg value="ios"/>
 			-->
-			<arg value="-cp"/><arg value="${lib}/robovm/lib/robovm-rt.jar" />
-			<arg value="-cp"/><arg value="${lib}/robovm/lib/robovm-objc.jar" />
-			<arg value="-cp"/><arg value="${lib}/robovm/lib/robovm-cocoatouch.jar" />
+			<arg value="-cp"/><arg value="${target.robovm}/lib/robovm-rt.jar" />
+			<arg value="-cp"/><arg value="${target.robovm}/lib/robovm-objc.jar" />
+			<arg value="-cp"/><arg value="${target.robovm}/lib/robovm-cocoatouch.jar" />
 			<arg value="-cp"/><arg value="${basedir}/${target.jar}"/>
 			<arg value="net.polydawn.taxi.launch.TaxiApple"/>
 		</exec>
