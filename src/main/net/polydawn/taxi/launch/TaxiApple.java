@@ -1,7 +1,7 @@
 package net.polydawn.taxi.launch;
 
 import java.io.*;
-import org.robovm.cocoatouch.foundation.*;
+import org.robovm.apple.foundation.*;
 
 /**
  * Run target for platforms that are rude.
@@ -9,7 +9,11 @@ import org.robovm.cocoatouch.foundation.*;
 public class TaxiApple {
 	public static void main(String... args) throws IOException {
 		NSAutoreleasePool pool = new NSAutoreleasePool();
-		Taxi.main(args);
-		pool.drain();
+		try {
+			Taxi.main(args);
+		} finally {
+			pool.drain();
+			pool.close();
+		}
 	}
 }
